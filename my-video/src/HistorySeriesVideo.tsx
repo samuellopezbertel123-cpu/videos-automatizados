@@ -265,7 +265,7 @@ const ToiletArt:React.FC<{kind:HistoryScene["kind"];frame:number}> = ({kind,fram
             </g>}
           {kind==="toilet-modern"||kind==="toilet-finale" ? <Figure x={277} y={1590} frame={frame} role="modern" action="point" scale={1.33}/>:null}
         </>
-      )}
+      }
     </>
   );
 };
