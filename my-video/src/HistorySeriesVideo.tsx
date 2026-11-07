@@ -348,7 +348,7 @@ const HistoryHeroArt:React.FC<{kind:HistoryScene["kind"];frame:number}> = ({kind
           </g>
           <path d="M63 1661Q530 1530 1011 1654" stroke="#F1D4A9" strokeWidth="16" fill="none"/>
         </>
-      )}
+      }
     </>
   );
 };
