@@ -28,7 +28,9 @@
     "dev": "remotion studio",
     "build": "remotion bundle",
     "upgrade": "remotion upgrade",
-    "lint": "eslint src && tsc"
+    "lint": "eslint src && tsc",
+    "render:pompeya": "remotion render src/index.ts CRONICAS-POMPEYA-60S out/pompeya-final-60s.mp4",
+    "render:demo": "remotion render src/index.ts CRONICAS-DEL-TIEMPO-DEMO out/pompeya-demo.mp4"
   },
   "allowScripts": {
     "esbuild": false
