@@ -1,0 +1,35 @@
+# Dependencies and generated output
+**/node_modules/
+**/build/
+**/dist/
+**/out/
+**/coverage/
+renders/
+rendered/
+videos-renderizados/
+
+# Local environment and credentials
+.env
+.env.*
+!.env.example
+!.env.sample
+*.pem
+*.key
+*.p12
+*.pfx
+*.mobileprovision
+.npmrc
+credentials.json
+service-account*.json
+secrets.*
+
+# Temporary files
+*.log
+*.tmp
+*.swp
+.DS_Store
+.cache/
+
+# Third-party reference material
+/PlantillaAnimaciones.zip
+/referencias/
