@@ -49,27 +49,23 @@ const CinematicShot: React.FC<{
   const frame = useCurrentFrame();
   const { durationInFrames } = useVideoConfig();
   const progress = frame / Math.max(1, durationInFrames - 1);
-  const zoom =
-    beat.cameraMove === "pull-out"
-      ? interpolate(progress, [0, 1], [1.22, 1.025], clamp)
-      : interpolate(progress, [0, 1], [1.025, 1.19], clamp);
+  // Movimientos suaves: el espectador sigue la acción, no el efecto.
+  const zoom = beat.cameraMove === "pull-out"
+    ? interpolate(progress, [0, 1], [1.09, 1.015], clamp)
+    : interpolate(progress, [0, 1], [1.012, 1.095], clamp);
   const cameraX =
     beat.cameraMove === "drift-left"
-      ? interpolate(progress, [0, 1], [65, -65], clamp)
+      ? interpolate(progress, [0, 1], [38, -38], clamp)
       : beat.cameraMove === "drift-right"
-        ? interpolate(progress, [0, 1], [-65, 65], clamp)
-        : Math.sin(frame / 31) * 11;
+        ? interpolate(progress, [0, 1], [-38, 38], clamp)
+        : Math.sin(frame / 44) * 6;
   const cameraY =
     beat.cameraMove === "tilt-up"
-      ? interpolate(progress, [0, 1], [54, -58], clamp)
+      ? interpolate(progress, [0, 1], [34, -34], clamp)
       : beat.cameraMove === "tilt-down"
-        ? interpolate(progress, [0, 1], [-58, 54], clamp)
-        : Math.cos(frame / 39) * 12;
+        ? interpolate(progress, [0, 1], [-34, 34], clamp)
+        : Math.cos(frame / 51) * 7;
   const titleOpacity = interpolate(frame, [0, 12, durationInFrames - 7], [0, 1, 1], clamp);
-  const wipe = interpolate(frame, [0, 12], [-400, 1500], {
-    ...clamp,
-    easing: Easing.out(Easing.cubic),
-  });
   const placement =
     beat.titlePosition === "center"
       ? { left: 80, right: 80, textAlign: "center" as const }
@@ -164,20 +160,6 @@ const CinematicShot: React.FC<{
           {beat.title}
         </div>
       ) : null}
-      <div
-        style={{
-          position: "absolute",
-          top: -80,
-          bottom: -80,
-          left: wipe,
-          width: 330,
-          transform: "skewX(-18deg)",
-          opacity: frame < 13 ? 1 : 0,
-          background:
-            "linear-gradient(90deg, transparent, rgba(4,9,14,.91) 48%, rgba(214,168,88,.78) 50%, rgba(4,9,14,.91) 52%, transparent)",
-          pointerEvents: "none",
-        }}
-      />
     </AbsoluteFill>
   );
 };
@@ -237,7 +219,7 @@ const KineticCaption: React.FC<{ cue: CaptionCue }> = ({ cue }) => {
         position: "absolute",
         left: 76,
         right: 76,
-        bottom: 206,
+        bottom: 250,
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -256,8 +238,8 @@ const KineticCaption: React.FC<{ cue: CaptionCue }> = ({ cue }) => {
           rowGap: 2,
           maxWidth: 930,
           fontFamily: "Arial, Helvetica, sans-serif",
-          fontSize: 31,
-          fontWeight: 600,
+          fontSize: 39,
+          fontWeight: 700,
           lineHeight: 1.25,
           textShadow: "0 3px 20px rgba(0,0,0,.95)",
         }}
@@ -315,9 +297,24 @@ export const DocumentaryVideo: React.FC<DocumentaryVideoProps> = ({ video }) => 
         <KineticCaption cue={cue} />
       </Sequence>
     ))}
-    {video.audio.narration ? <Audio src={staticFile(video.audio.narration)} volume={1} /> : null}
+    {video.audio.narration ? (
+      <Sequence from={video.audio.narrationStartFrame ?? 0} name="Voz documental">
+        <Audio
+          src={staticFile(video.audio.narration)}
+          volume={1}
+          playbackRate={video.audio.narrationPlaybackRate ?? 1}
+        />
+      </Sequence>
+    ) : null}
     {video.audio.music ? (
-      <Audio src={staticFile(video.audio.music)} volume={video.audio.musicVolume} />
+      <Audio
+        src={staticFile(video.audio.music)}
+        volume={(f) => {
+          const fadeIn = interpolate(f, [0, 18], [0, 1], clamp);
+          const fadeOut = interpolate(f, [1740, 1799], [1, 0], clamp);
+          return video.audio.musicVolume * Math.min(fadeIn, fadeOut);
+        }}
+      />
     ) : null}
     {video.audio.soundEffects.map((effect, index) => (
       <Sequence
