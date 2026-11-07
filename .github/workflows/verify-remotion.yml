@@ -1,0 +1,34 @@
+name: Verificar proyecto Remotion
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "my-video/**"
+      - ".github/workflows/verify-remotion.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint-build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: my-video
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+      - name: Preparar Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: my-video/package-lock.json
+      - name: Instalar dependencias
+        run: npm ci
+      - name: Revisar TypeScript y ESLint
+        run: npm run lint
+      - name: Construir proyecto
+        run: npm run build
