@@ -8,6 +8,7 @@ import {
   useCurrentFrame,
 } from "remotion";
 import type { HistoryEpisode, HistoryScene } from "./history-series-data";
+import { historyAudioManifest } from "./history-audio-manifest";
 
 const C = {
   ink: "#101923",
@@ -422,20 +423,22 @@ const Subtitle:React.FC<{text:string;length:number}> = ({text,length})=>{
 export const HistorySeriesVideo:React.FC<{episode:HistoryEpisode;voiceEnabled?:boolean}> =
 ({episode,voiceEnabled=false})=>{
   const frame=useCurrentFrame();
+  const aligned=historyAudioManifest[episode.slug];
+  const cues=voiceEnabled && aligned?.captions.length ? aligned.captions : episode.captions;
   return <AbsoluteFill style={{backgroundColor:C.ink}}>
     {episode.scenes.map(scene=>(
       <Sequence key={scene.kind} from={scene.from} durationInFrames={scene.duration} name={scene.label}>
         <VisualShot scene={scene} episode={episode}/>
       </Sequence>
     ))}
-    {episode.captions.map((cue,i)=>(
+    {cues.map((cue,i)=>(
       <Sequence key={"c"+i} from={cue.from} durationInFrames={cue.duration} name={"Subtítulo "+(i+1)}>
         <Subtitle text={cue.text} length={cue.duration}/>
       </Sequence>
     ))}
     <Audio src={staticFile("assets/pompeii-ambience.wav")} loop volume={voiceEnabled ? .09 : .22}/>
     {voiceEnabled && <Sequence from={15} name="Narración documental">
-      <Audio src={staticFile(episode.voicePath)} volume={1}/>
+      <Audio src={staticFile(episode.voicePath)} volume={1} playbackRate={aligned?.playbackRate ?? 1}/>
     </Sequence>}
     <div style={{position:"absolute",left:0,bottom:0,height:7,width:(frame/1800)*1080,background:"#E2B468"}}/>
   </AbsoluteFill>;
