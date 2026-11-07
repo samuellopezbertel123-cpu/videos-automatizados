@@ -14,7 +14,25 @@ if(!key){
   console.error("Falta ELEVENLABS_API_KEY. Configúrala en Codespaces Secrets, no en archivos ni en el chat.");
   process.exit(1);
 }
-const voiceId=process.env.ELEVENLABS_VOICE_ID || "9TZnk0CAGA9YiCg6gU9Q";
+// En plan gratuito, las voces profesionales de biblioteca están bloqueadas en la API.
+// Buscar voces predeterminadas de la cuenta; nunca seleccionar una biblioteca profesional.
+const voiceIdOverride=process.env.ELEVENLABS_VOICE_ID;
+async function findFreeVoice(){
+  if(voiceIdOverride) return {voice_id:voiceIdOverride,name:"Voz elegida por el usuario"};
+  const url="https://api.elevenlabs.io/v2/voices?voice_type=default&page_size=100";
+  const response=await fetch(url,{headers:{"xi-api-key":key}});
+  if(!response.ok) throw Error("No se pudieron consultar las voces predeterminadas: HTTP "+response.status);
+  const data=await response.json();
+  const voices=(data.voices||[]).filter(v=>v.voice_id && v.category!=="professional");
+  const male=voices.filter(v=>(v.labels?.gender||"").toLowerCase()==="male");
+  const spanish=male.filter(v=>/spanish|latin|mexic|espa|colomb|narrat|story|deep/i.test([v.name,v.description,v.labels?.accent,v.labels?.language,v.labels?.use_case].join(" ")));
+  const voice=spanish[0]||male[0]||voices[0];
+  if(!voice) throw Error("La cuenta no ofrece voces predeterminadas para API gratuita. No se intentará generar audio de pago.");
+  console.log("Voz predeterminada seleccionada:",voice.name,"("+voice.voice_id+")",voice.labels?.accent||"");
+  return voice;
+}
+const voice=await findFreeVoice();
+const voiceId=voice.voice_id;
 const modelId=process.env.ELEVENLABS_MODEL_ID || "eleven_multilingual_v2";
 const force=process.argv.includes("--force");
 const all=[
