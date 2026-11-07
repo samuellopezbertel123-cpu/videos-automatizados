@@ -33,3 +33,6 @@ secrets.*
 # Third-party reference material
 /PlantillaAnimaciones.zip
 /referencias/
+
+# Voces generadas, no subir audio ni exponer locuciones a repositorio público
+my-video/public/assets/voz-*.mp3
