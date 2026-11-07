@@ -35,7 +35,8 @@
     "render:historia-batch": "node scripts/render-history-batch.mjs",
     "render:medicina": "remotion render src/index.ts CRONICAS-MEDICINA-60S out/medicina.mp4",
     "render:banos": "remotion render src/index.ts CRONICAS-BANOS-60S out/banos.mp4",
-    "render:heroes": "remotion render src/index.ts CRONICAS-HEROES-60S out/heroes.mp4"
+    "render:heroes": "remotion render src/index.ts CRONICAS-HEROES-60S out/heroes.mp4",
+    "produce:historia-batch": "npm run voices:history && npm run render:historia-batch"
   },
   "allowScripts": {
     "esbuild": false
