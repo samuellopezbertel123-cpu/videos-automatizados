@@ -1,6 +1,7 @@
 import { Composition, Folder } from "remotion";
 import { DocumentaryVideo } from "./DocumentaryVideo";
 import { pompeiiDemo } from "./documentary-data";
+import { pompeiiFinal } from "./pompeii-final";
 import { HistoricalMasterVideo } from "./HistoricalMasterVideo";
 import { akhenatenDemo } from "./akhenaten-demo";
 import { HelloWorld } from "./HelloWorld";
@@ -20,6 +21,15 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
         defaultProps={{ video: pompeiiDemo }}
+      />
+      <Composition
+        id="CRONICAS-POMPEYA-60S"
+        component={DocumentaryVideo}
+        durationInFrames={1800}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{ video: pompeiiFinal }}
       />
       <Composition
         id="CRONICAS-AKENATON"
