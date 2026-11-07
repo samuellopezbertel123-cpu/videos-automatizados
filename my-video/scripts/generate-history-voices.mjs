@@ -21,7 +21,10 @@ async function findFreeVoice(){
   if(voiceIdOverride) return {voice_id:voiceIdOverride,name:"Voz elegida por el usuario"};
   const url="https://api.elevenlabs.io/v2/voices?voice_type=default&page_size=100";
   const response=await fetch(url,{headers:{"xi-api-key":key}});
-  if(!response.ok) throw Error("No se pudieron consultar las voces predeterminadas: HTTP "+response.status);
+  if(!response.ok){
+    console.warn("No se pudo listar voces (HTTP "+response.status+"). Probaré una voz predeterminada pública, sin usar biblioteca profesional.");
+    return {voice_id:"CwhRBWXzGAHq8TQ4Fs17",name:"Roger (voz predeterminada)"};
+  }
   const data=await response.json();
   const voices=(data.voices||[]).filter(v=>v.voice_id && v.category!=="professional");
   const male=voices.filter(v=>(v.labels?.gender||"").toLowerCase()==="male");
