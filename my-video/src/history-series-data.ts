@@ -123,7 +123,7 @@ export const toiletHistory: HistoryEpisode = {
     ["toilet-castle","CASTILLOS MEDIEVALES","EUROPA MEDIEVAL",accent.violet],
     ["toilet-garderobe","UNA ABERTURA EN EL MURO","EL GARDEROBE",accent.gold],
     ["toilet-chamberpot","ORINALES EN CASA","SIN TUBERÍAS MODERNAS",accent.rose],
-    ["toilet-sewers","LLEGARON LAS CLOACAS","REDES DE AGUA",accent.blue],
+    ["toilet-sewers","EVOLUCIONÓ EL SANEAMIENTO","REDES DE AGUA",accent.blue],
     ["toilet-modern","EL BAÑO QUE CONOCEMOS","COMODIDAD MODERNA",accent.teal],
     ["toilet-finale","¿EN QUÉ ÉPOCA VIVIRÍAS?","ELIGE UNA",accent.gold],
   ]),
