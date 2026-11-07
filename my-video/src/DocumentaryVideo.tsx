@@ -7,7 +7,6 @@ import {
   interpolate,
   staticFile,
   useCurrentFrame,
-  useVideoConfig,
 } from "remotion";
 import type {
   CaptionCue,
@@ -47,8 +46,8 @@ const CinematicShot: React.FC<{
   showChapter: boolean;
 }> = ({ scene, beat, showChapter }) => {
   const frame = useCurrentFrame();
-  const { durationInFrames } = useVideoConfig();
-  const progress = frame / Math.max(1, durationInFrames - 1);
+  // La duración usada para el movimiento debe ser la del plano, no la del episodio completo.
+  const progress = frame / Math.max(1, beat.duration - 1);
   // Movimientos suaves: el espectador sigue la acción, no el efecto.
   const zoom = beat.cameraMove === "pull-out"
     ? interpolate(progress, [0, 1], [1.09, 1.015], clamp)
@@ -65,7 +64,7 @@ const CinematicShot: React.FC<{
       : beat.cameraMove === "tilt-down"
         ? interpolate(progress, [0, 1], [-34, 34], clamp)
         : Math.cos(frame / 51) * 7;
-  const titleOpacity = interpolate(frame, [0, 12, durationInFrames - 7], [0, 1, 1], clamp);
+  const titleOpacity = interpolate(frame, [0, 12, Math.max(13, beat.duration - 7)], [0, 1, 1], clamp);
   const placement =
     beat.titlePosition === "center"
       ? { left: 80, right: 80, textAlign: "center" as const }
@@ -311,7 +310,7 @@ export const DocumentaryVideo: React.FC<DocumentaryVideoProps> = ({ video }) => 
         src={staticFile(video.audio.music)}
         volume={(f) => {
           const fadeIn = interpolate(f, [0, 18], [0, 1], clamp);
-          const fadeOut = interpolate(f, [1740, 1799], [1, 0], clamp);
+          const fadeOut = interpolate(f, [Math.max(18, video.durationInFrames - 60), video.durationInFrames - 1], [1, 0], clamp);
           return video.audio.musicVolume * Math.min(fadeIn, fadeOut);
         }}
       />
