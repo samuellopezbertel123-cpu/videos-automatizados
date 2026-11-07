@@ -44,3 +44,49 @@ La demo de Pompeya mantiene 1800 fotogramas (60 segundos) y organiza seis actos 
 npm run lint
 npm run build
 ```
+
+
+## Primer video final — POMPEYA (60 segundos)
+
+La composición **`CRONICAS-POMPEYA-60S`** es distinta de la demo original:
+- Formato 1080×1920, 30 FPS, **1800 frames = 60 segundos**.
+- Secuencia narrativa de vida cotidiana, erupción, huida, entierro, redescubrimiento y legado.
+- 27 segmentos de subtítulos calculados a partir de la transcripción real de ElevenLabs.
+- Menos transiciones invasivas, personajes con parpadeo/reacciones y arqueólogos con herramienta.
+- Sin marca permanente del canal.
+
+### Voz de ElevenLabs (un paso necesario)
+
+La locución de **Strick RD – Narraciones** (español latinoamericano) ya fue generada, dura **54,96 s** antes de ajuste.
+[Escuchar y descargar la narración](https://elevenlabs.io/app/flows/i6mRyziUrWVUKxHazHhv).
+
+Descarga el **MP3** de esa generación y cópialo a:
+
+```
+my-video/public/assets/pompeya-voz-60s.mp3
+```
+
+**No subas claves API**. Este MP3 no se incluye en GitHub: debes importarlo desde ElevenLabs en el entorno de Codespaces para generar el video. Una vez allí, la voz se reproduce a **0,94x**, empieza a los 0,5 s, y termina cerca de los 59 s, mientras la música acompaña los **60 s completos**. La duración exacta del MP4 la fija Remotion, no la del MP3.
+
+### Comprobar y exportar
+
+En una terminal dentro de `my-video`:
+
+```bash
+npm ci
+npm run lint
+npm run dev
+# En Studio: CRONICAS-POMPEYA-60S
+```
+
+Cuando la voz esté en la carpeta indicada:
+
+```bash
+npm run render:pompeya
+```
+
+El resultado estará en `my-video/out/pompeya-final-60s.mp4`. Descárgalo haciendo clic derecho sobre el MP4 en el explorador de Codespaces → Download.
+
+Antes de publicar: reproducir el video completo, escuchar que voz + música no se tapen entre sí, revisar subtítulos y que el MP4 dure 60 s. Consultar permisos comerciales de voz y música según el plan y fuente correspondiente. Fuentes de la historia: UNESCO (https://whc.unesco.org/en/list/829).
+
+**Importante:** `npm run build` y `npm run lint` no equivalen a una revisión visual/sonora. La nueva versión requiere descargar el MP3 y renderizar en el Codespace para darla por finalizada.
