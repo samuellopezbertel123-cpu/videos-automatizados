@@ -8,6 +8,7 @@ export type CameraMove =
 
 export type DocumentaryVisual =
   | "eruption"
+  | "escape"
   | "map"
   | "city"
   | "excavation"
