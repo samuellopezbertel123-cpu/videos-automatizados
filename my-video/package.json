@@ -30,7 +30,12 @@
     "upgrade": "remotion upgrade",
     "lint": "eslint src && tsc",
     "render:pompeya": "remotion render src/index.ts CRONICAS-POMPEYA-60S out/pompeya-final-60s.mp4",
-    "render:demo": "remotion render src/index.ts CRONICAS-DEL-TIEMPO-DEMO out/pompeya-demo.mp4"
+    "render:demo": "remotion render src/index.ts CRONICAS-DEL-TIEMPO-DEMO out/pompeya-demo.mp4",
+    "voices:history": "node scripts/generate-history-voices.mjs",
+    "render:historia-batch": "node scripts/render-history-batch.mjs",
+    "render:medicina": "remotion render src/index.ts CRONICAS-MEDICINA-60S out/medicina.mp4",
+    "render:banos": "remotion render src/index.ts CRONICAS-BANOS-60S out/banos.mp4",
+    "render:heroes": "remotion render src/index.ts CRONICAS-HEROES-60S out/heroes.mp4"
   },
   "allowScripts": {
     "esbuild": false
