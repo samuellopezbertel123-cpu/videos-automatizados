@@ -123,9 +123,30 @@ export const PompeiiArtwork: React.FC<PompeiiArtworkProps> = ({ kind, frame }) =
           <RomanFacade x={620} y={1001} scale={1.27} wall="#795044" />
           <path d="M0 1480Q261 1381 456 1472T1080 1449V1920H0Z" fill="#231f20" />
           <PompeiiFigure frame={frame} x={264 + (frame % 44) * 2.4} y={1585} scale={1.32} action="run" />
-          <PompeiiFigure frame={frame + 8} x={515} y={1640} scale={1.16} style="guard" action="point" />
+          <PompeiiFigure frame={frame + 8} x={515} y={1640} scale={1.16} style="guard" action="react" />
           <PompeiiFigure frame={frame + 16} x={782 - (frame % 44) * 1.8} y={1604} scale={1.26} action="run" />
           <path d={`M0 ${1422 + Math.sin(frame / 7) * 18}Q210 1368 421 1437T850 1422Q963 1387 1080 1419V1640H0Z`} fill="url(#pompeii-ash)" opacity=".8" />
+        </>
+      )}
+
+      {kind === "escape" && (
+        <>
+          <rect width="1080" height="1920" fill="#482d2d" />
+          <circle cx="836" cy="390" r="500" fill="url(#pompeii-lamp)" opacity=".65" />
+          <path d="M0 1200 168 920 338 1021 531 757 676 928 843 635 1080 989V1580H0Z" fill="#27252b" />
+          <path d="M0 240Q310 70 554 275T1080 186V750Q786 638 488 820T0 724Z" fill="#575253" opacity=".78"
+            transform={`translate(${Math.sin(frame / 15) * 28} 0)`} />
+          <RomanFacade x={-104} y={822} scale={1.38} wall="#975445" />
+          <RomanFacade x={755} y={874} scale={1.24} wall="#70463d" />
+          <path d="M0 1378Q275 1300 568 1411T1080 1380V1920H0Z" fill="#403330" />
+          <path d="M0 1681Q290 1566 530 1665T1080 1625" stroke="#e0ab75" strokeWidth="27" opacity=".5" />
+          <PompeiiFigure frame={frame} x={160 + frame * 4.5} y={1615} scale={1.45} style="citizen" action="run" />
+          <PompeiiFigure frame={frame + 11} x={1040 - frame * 3.8} y={1598} scale={1.3} style="citizen" action="run" />
+          <PompeiiFigure frame={frame + 19} x={786} y={1500} scale={1.22} style="guard" action="react" />
+          {Array.from({ length: 24 }, (_, i) => (
+            <circle key={i} cx={(i * 139 + frame * 2.9) % 1140 - 30} cy={(i * 317 + frame * 6.4) % 1920}
+              r={i % 4 === 0 ? 9 : 4} fill={i % 5 === 0 ? "#ffb26a" : "#aaa4a0"} opacity=".74" />
+          ))}
         </>
       )}
 
@@ -271,10 +292,14 @@ export const PompeiiArtwork: React.FC<PompeiiArtworkProps> = ({ kind, frame }) =
           <path d="M304 1080H523M580 1162H778" stroke="#a75740" strokeWidth="20" />
           <path d="M359 1380V1203Q359 1112 414 1112Q470 1112 470 1203V1380" fill="#15222a" stroke="#d6b88c" strokeWidth="14" />
           <path d="M712 1381V1246Q712 1175 758 1175Q804 1175 804 1246V1381" fill="#17242a" stroke="#d6b88c" strokeWidth="14" />
+          {kind !== "buried" && (
+            <>
           <PompeiiFigure frame={frame} x={185 + Math.sin(frame / 13) * 19} y={1502} scale={1.54} style="archaeologist" action="dig" />
           <PompeiiFigure frame={frame + 10} x={884 + Math.sin(frame / 11) * 15} y={1457} scale={1.35} style="archaeologist" action="point" />
           <path d="M145 1575 283 1660 393 1588M804 1550 932 1622" stroke="#caa36c" strokeWidth="20" strokeLinecap="round" />
           <path d="M468 1680Q545 1603 625 1680" fill="none" stroke="#e8c99a" strokeWidth="15" />
+            </>
+          )}
           {kind === "buried" && (
             <g>
               <path d="M0 796Q265 725 520 812T1080 778V977Q813 1035 540 955T0 1000Z" fill="url(#pompeii-ash)" opacity=".95" />
