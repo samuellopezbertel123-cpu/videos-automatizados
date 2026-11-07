@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/produce-historias-con-voz.yml"
+      - "my-video/scripts/generate-history-voices.mjs"
   workflow_dispatch:
 
 permissions:
