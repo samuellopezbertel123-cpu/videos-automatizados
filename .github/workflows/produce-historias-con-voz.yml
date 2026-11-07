@@ -41,7 +41,7 @@ jobs:
         run: npm ci
       - name: Verificar código
         run: npm run lint
-      - name: Generar las tres voces y subtítulos con ElevenLabs
+      - name: Generar tres narraciones con voz predeterminada y subtítulos
         run: npm run voices:history
       - name: Renderizar tres MP4 narrados
         run: npm run render:historia-batch
