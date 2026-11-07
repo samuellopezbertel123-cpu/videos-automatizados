@@ -1,5 +1,7 @@
 import { Composition, Folder } from "remotion";
 import { DocumentaryVideo } from "./DocumentaryVideo";
+import { HistorySeriesVideo } from "./HistorySeriesVideo";
+import { medicalHistory, toiletHistory, heroesHistory } from "./history-series-data";
 import { pompeiiDemo } from "./documentary-data";
 import { pompeiiFinal } from "./pompeii-final";
 import { HistoricalMasterVideo } from "./HistoricalMasterVideo";
@@ -30,6 +32,33 @@ export const RemotionRoot: React.FC = () => {
         width={1080}
         height={1920}
         defaultProps={{ video: pompeiiFinal }}
+      />
+      <Composition
+        id="CRONICAS-MEDICINA-60S"
+        component={HistorySeriesVideo}
+        durationInFrames={1800}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{episode: medicalHistory, voiceEnabled: false}}
+      />
+      <Composition
+        id="CRONICAS-BANOS-60S"
+        component={HistorySeriesVideo}
+        durationInFrames={1800}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{episode: toiletHistory, voiceEnabled: false}}
+      />
+      <Composition
+        id="CRONICAS-HEROES-60S"
+        component={HistorySeriesVideo}
+        durationInFrames={1800}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{episode: heroesHistory, voiceEnabled: false}}
       />
       <Composition
         id="CRONICAS-AKENATON"
