@@ -1,0 +1,45 @@
+name: Renderizar 3 historias animadas
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "my-video/src/history-series-data.ts"
+      - "my-video/src/HistorySeriesVideo.tsx"
+      - "my-video/src/Root.tsx"
+      - "my-video/scripts/render-history-batch.mjs"
+      - ".github/workflows/render-historias.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  render-history:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    defaults:
+      run:
+        working-directory: my-video
+    steps:
+      - name: Descargar código
+        uses: actions/checkout@v4
+      - name: Preparar Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: my-video/package-lock.json
+      - name: Instalar dependencias
+        run: npm ci
+      - name: Comprobar proyecto
+        run: npm run lint
+      - name: Renderizar 3 MP4 (vistas previas sin voz de ElevenLabs)
+        run: npm run render:historia-batch
+      - name: Archivar los MP4
+        uses: actions/upload-artifact@v4
+        with:
+          name: cronicas-3-historias-previews
+          path: my-video/out/*.mp4
+          retention-days: 14
+          if-no-files-found: error
