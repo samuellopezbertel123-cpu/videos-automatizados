@@ -1,0 +1,53 @@
+name: Producción final tres videos con voz
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/produce-historias-con-voz.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  generar-y-renderizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    defaults:
+      run:
+        working-directory: my-video
+    env:
+      ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+    steps:
+      - name: Descargar proyecto
+        uses: actions/checkout@v4
+      - name: Comprobar acceso a ElevenLabs
+        shell: bash
+        run: |
+          if [ -z "$ELEVENLABS_API_KEY" ]; then
+            echo "::error::No hay ELEVENLABS_API_KEY en GitHub Actions. Codespaces Secrets y Actions Secrets son independientes. Configura la clave en Settings > Secrets and variables > Actions y vuelve a ejecutar el workflow."
+            exit 1
+          fi
+          echo "Clave disponible para este job (valor oculto)."
+      - name: Preparar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: my-video/package-lock.json
+      - name: Instalar dependencias
+        run: npm ci
+      - name: Verificar código
+        run: npm run lint
+      - name: Generar las tres voces y subtítulos con ElevenLabs
+        run: npm run voices:history
+      - name: Renderizar tres MP4 narrados
+        run: npm run render:historia-batch
+      - name: Publicar MP4 como archivos privados de GitHub Actions
+        uses: actions/upload-artifact@v4
+        with:
+          name: cronicas-tres-videos-con-narracion
+          path: my-video/out/*.mp4
+          retention-days: 14
+          if-no-files-found: error
