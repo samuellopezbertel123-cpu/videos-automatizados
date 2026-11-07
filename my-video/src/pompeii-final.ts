@@ -39,7 +39,7 @@ const scenes: DocumentaryScene[] = [
     visual: "eruption", cameraMove: "push",
     beats: [
       { duration: 140, visual: "eruption", title: "EL CIELO SE OSCURECIÓ", cameraMove: "push", titlePosition: "left" },
-      { duration: 100, visual: "street", title: "", cameraMove: "drift-right", titlePosition: "right" },
+      { duration: 100, visual: "escape", title: "", cameraMove: "drift-right", titlePosition: "right" },
       { duration: 90, visual: "buried", title: "", cameraMove: "tilt-down", titlePosition: "left" },
     ],
   },
