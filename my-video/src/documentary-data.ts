@@ -56,6 +56,10 @@ export type CaptionCue = {
 
 export type DocumentaryAudio = {
   narration?: string;
+  /** Fotograma en que entra la voz (permite un breve arranque musical). */
+  narrationStartFrame?: number;
+  /** Compensa pequeñas diferencias entre la locución generada y los 60 segundos. */
+  narrationPlaybackRate?: number;
   music?: string;
   musicVolume: number;
   soundEffects: Array<{
